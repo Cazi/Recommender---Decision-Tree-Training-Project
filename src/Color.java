@@ -1,5 +1,8 @@
 package src;
 
+/**
+ * Color Class
+ */
 public class Color extends Attribute implements IAttributeDatum{
     /**
      * Color Constructor

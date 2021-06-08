@@ -1,5 +1,8 @@
 package src;
 
+/**
+ * Vegetable Class
+ */
 public class Vegetable implements IAttributeDatum{
 
     /**

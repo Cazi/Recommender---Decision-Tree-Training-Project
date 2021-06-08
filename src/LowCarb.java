@@ -1,5 +1,8 @@
 package src;
 
+/**
+ * LowCarb Class
+ */
 public class LowCarb extends Attribute{
     /**
      * boolean value field for LowCarb

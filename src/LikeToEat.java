@@ -1,5 +1,8 @@
 package src;
 
+/**
+ * LikeToEat Class
+ */
 public class LikeToEat extends Attribute implements IAttributeDatum{
     /**
      * boolean value field for LikeToEat

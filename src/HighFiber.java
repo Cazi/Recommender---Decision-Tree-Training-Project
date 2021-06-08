@@ -1,5 +1,8 @@
 package src;
 
+/**
+ * HighFiber Class
+ */
 public class HighFiber extends Attribute implements  IAttributeDatum{
     /**
      * boolean value field for LowCarb
