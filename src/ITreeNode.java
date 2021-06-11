@@ -1,5 +1,7 @@
 package src;
 
+import src.IAttributeDatum;
+
 /**
  * Interface for a node in a decision tree.
  */

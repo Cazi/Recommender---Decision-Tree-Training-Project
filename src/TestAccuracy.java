@@ -12,7 +12,7 @@ import test.RestaurantPreferences;
  * run this file when you first download the stencil code, you will
  * get a NullPointerException. This is because you have not implemented your
  * TreeGenerator or your DataTable classes.
- *
+ * <p>
  * DO NOT CHANGE ANYTHING IN THIS FILE EXCEPT FOR NUM_ITERATIONS.
  */
 public class TestAccuracy {
@@ -35,7 +35,7 @@ public class TestAccuracy {
      */
     public static void runTests() throws Exception {
         TestAccuracy.testAccuracy(Mushroom.class,
-                MUSHROOMS_TRAINING,MUSHROOMS_TESTING, "isPoisonous");
+                MUSHROOMS_TRAINING, MUSHROOMS_TESTING, "isPoisonous");
         TestAccuracy.testAccuracy(RestaurantPreferences.class,
                 VILLAINS_TRAINING, VILLAINS_TESTING, "isVillain");
         TestAccuracy.testAccuracy(Candidate.class,
@@ -47,11 +47,12 @@ public class TestAccuracy {
     /**
      * Trains your decision tree on a training dataset and tests on testing dataset
      * many times and averages the classification accuracy.
-     * @param dataClass the class of datum
+     *
+     * @param dataClass        the class of datum
      * @param trainingDataPath the path to the training csv file
-     * @param testingDataPath the path to the testing csv file
-     * @param targetAttribute the attribute to predict
-     * @param <D> the type of the datum
+     * @param testingDataPath  the path to the testing csv file
+     * @param targetAttribute  the attribute to predict
+     * @param <D>              the type of the datum
      */
     public static <D extends IAttributeDatum> void testAccuracy(
             Class<D> dataClass, String trainingDataPath, String testingDataPath,
