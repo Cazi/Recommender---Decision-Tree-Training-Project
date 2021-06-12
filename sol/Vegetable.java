@@ -31,14 +31,14 @@ public class Vegetable implements IAttributeDatum {
     /**
      * A constructor for Vegetable
      *
-     * @param name      - String representing the name of the vegetable
-     * @param color     - String representing the color of the vegetable
-     * @param lowCarb   - Boolean representing whether the vegetable is high in
-     *                  fiber
+     * @param name - String representing the name of the vegetable
+     * @param color - String representing the color of the vegetable
+     * @param lowCarb - Boolean representing whether the vegetable is high in
+     *        fiber
      * @param highFiber - Boolean representing whether the vegetable is high in
-     *                  fiber
+     *        fiber
      * @param likeToEat - Boolean representing whether the vegetable is liked
-     *                  to eat
+     *        to eat
      */
     public Vegetable(String name, String color, Boolean lowCarb,
                      Boolean highFiber, Boolean likeToEat) {
@@ -48,7 +48,6 @@ public class Vegetable implements IAttributeDatum {
         this.highFiber = highFiber;
         this.likeToEat = likeToEat;
     }
-
     @Override
     public Object getValueOf(String attributeName) {
         if (attributeName.equals("name")) {
@@ -59,8 +58,10 @@ public class Vegetable implements IAttributeDatum {
             return this.lowCarb;
         } else if (attributeName.equals("highFiber")) {
             return this.highFiber;
-        } else {
+        } else if (attributeName.equals("likeToEat")) {
             return this.likeToEat;
+        } else {
+            throw new RuntimeException("Unexpected Attribute in getValueOf");
         }
     }
 }

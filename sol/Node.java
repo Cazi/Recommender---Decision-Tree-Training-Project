@@ -21,14 +21,29 @@ public class Node implements ITreeNode {
     List<Edge> edges;
 
     /**
+     * Field representing the mostCommonDecision for the current subset
+     */
+    Object mostCommonDecision;
+
+    /**
      * A constructor for Node
      *
      * @param attribute - String representing Node attribute name
-     * @param edges     -  List representing Node edges
      */
-    public Node(String attribute, List<Edge> edges) {
+    public Node(String attribute, Object mostCommDecision) {
         this.attribute = attribute;
-        this.edges = edges;
+        /*
+         List of edges should be added through a method, since the node doesn't always have that list when the node
+         is being constructed.
+         */
+        this.edges = null;
+
+        /*
+        In order to set the field for mostCommonDecision, we need to keep track of the value of the given attribute
+        for each datum, probably by counting the objects as we encounter them. We then set the mCD field equal to
+        whichever object we've found to be the most common.
+         */
+
     }
 
     @Override

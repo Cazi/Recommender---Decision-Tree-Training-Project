@@ -4,29 +4,29 @@ import src.IAttributeDatum;
 import src.ITreeNode;
 
 /**
- * Decision Tree Leaf Class
+ * Class representing Leaf, an implementation of ITreeNode
  */
+
 public class Leaf implements ITreeNode {
     /**
-     * field representing the boolean contained in the leaf at the end of the tree
+     * Field representing final decision
      */
-    public boolean value;
+    Object decision;
 
     /**
-     * Leaf Constructor
+     * A constructor for Leaf
+     *
+     * @param decision - Object representing final decision
      */
-
-    public Leaf() {
-
+    public Leaf(Object decision) {
+        this.decision = decision;
     }
 
     @Override
-    public Object lookupDecision(IAttributeDatum iAttributeDatum) {
+    public Object lookupDecision(IAttributeDatum datum) {
         return null;
     }
 
     @Override
-    public void printNode(String s) {
-
-    }
+    public void printNode(String leadSpace){ }
 }

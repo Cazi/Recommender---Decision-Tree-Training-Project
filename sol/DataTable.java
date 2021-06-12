@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * Class for a table (collection of rows) of data.
- *
  * @param <T> the type of the data objects
  */
 public class DataTable<T extends IAttributeDatum> implements
@@ -17,20 +16,16 @@ public class DataTable<T extends IAttributeDatum> implements
     /**
      * Field representing list of table attributes
      */
-    List<String> attributes; // can we assume fixed???
+    List<String> attributes;
     /**
      * Field representing rows/data objects of table
      */
-    List<T> rows; // list of rows/data objects // can we assume fixed???
-    /**
-     * Field representing mutable rows of table
-     */
-    LinkedList<T> mutableRows = new LinkedList<>(rows);
+    List<T> rows;
 
     /**
-     * A constructor for DataTable
+     *  A constructor for DataTable
      *
-     * @param attributes  list of strings representing table attributes
+     * @param attributes list of strings representing table attributes
      * @param dataObjects list of data objects representing rows of table
      */
     public DataTable(List<String> attributes, List<T> dataObjects) {
@@ -56,13 +51,13 @@ public class DataTable<T extends IAttributeDatum> implements
     @Override
     public boolean allSameValue(String ofAttribute) {
         Object value = this.rows.get(0).getValueOf(ofAttribute);
-        for (int i = 1; i < this.size(); i++) {
+        for (int i = 1; i < this.size(); i ++) {
             if (!value.equals(this.rows.get(i).getValueOf(ofAttribute))) {
                 return false;
             }
         }
-        return true;
 
+        return true;
     }
 
     @Override
@@ -78,14 +73,14 @@ public class DataTable<T extends IAttributeDatum> implements
 
         // is there a sort (descending order)  function to first sort then
         // just return the first thing in list aka better runtime????
-        for (int i = 1; i < partitions.size(); i++) {
-            if (mostCommonSize < partitions.get(i).size()) {
+        for (int i = 1; i < partitions.size(); i ++) {
+            if(mostCommonSize < partitions.get(i).size()) {
                 mostCommon = partitions.get(i);
                 mostCommonSize = mostCommon.size();
             }
         }
-        return mostCommon.getSharedValue(ofAttribute);
 
+        return mostCommon.getSharedValue(ofAttribute);
     }
 
     @Override
@@ -93,26 +88,27 @@ public class DataTable<T extends IAttributeDatum> implements
         List<IAttributeDataset<T>> partitions =
                 new ArrayList<IAttributeDataset<T>>();
         List<Object> uniqueValues = this.uniqueValues(onAttribute);
+        LinkedList<T> mutableRows = new LinkedList<>(rows);
 
         for (Object value : uniqueValues) {
             List<T> currentData = new ArrayList<T>();
             int i = 0;
-            while (this.mutableRows != null) {
-                T row = this.mutableRows.get(i);
+            while (mutableRows != null) {
+                T row = mutableRows.get(i);
                 Object currentValue = row.getValueOf(onAttribute);
                 if (value.equals(currentValue)) {
                     currentData.add(row);
-                    this.mutableRows.remove(row);
+                    mutableRows.remove(row);
                 } else {
                     i++;
                 }
             }
             IAttributeDataset<T> currentDataset =
-                    new DataTable<T>(this.getAttributes(), currentData);
+                    new DataTable<T>(this.getAttributes(),currentData);
             partitions.add(currentDataset);
         }
-        return partitions;
 
+        return partitions;
     }
 
     /**
@@ -121,15 +117,14 @@ public class DataTable<T extends IAttributeDatum> implements
      * @param onAttribute the given attribute
      * @return a list of unique values
      */
-    public List<Object> uniqueValues(String onAttribute) {
+    private List<Object> uniqueValues(String onAttribute) {
         List<Object> unique = new ArrayList<Object>();
         for (T row : rows) {
             Object currentValue = row.getValueOf(onAttribute);
-            if (!unique.contains(currentValue)) {
+            if(!unique.contains(currentValue)) {
                 unique.add(currentValue);
             }
         }
         return unique;
     }
-
 }
