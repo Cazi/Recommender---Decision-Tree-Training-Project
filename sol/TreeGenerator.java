@@ -77,12 +77,12 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
                     this.trainingData.partition(newAttribute);
 
             for (IAttributeDataset<T> partition : partitions) {
-               mutableAttributes =
-                      new LinkedList<String>(partition.getAttributes());
+                LinkedList<String> mutableAttSecond =
+                      new LinkedList<String>(mutableAttributes);
                 TreeGenerator newTree = new TreeGenerator(partition);
                 ITreeNode tree =
                         newTree.classifierHelper(targetAttribute,
-                                mutableAttributes);
+                                mutableAttSecond);
                 Object sharedValue = partition.getSharedValue(newAttribute);
                 Edge edge = new Edge(sharedValue, tree);
                 newNode.edges.add(edge);
