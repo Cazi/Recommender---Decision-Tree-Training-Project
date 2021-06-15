@@ -4,10 +4,8 @@ import src.IAttributeDataset;
 import src.IAttributeDatum;
 import src.ITreeGenerator;
 import src.ITreeNode;
-
 import java.util.List;
 import java.util.Random;
-
 import java.util.LinkedList;
 
 /**
@@ -16,7 +14,8 @@ import java.util.LinkedList;
  * @param <T> the type of the data objects
  */
 
-public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator {
+public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
+{
     /**
      * Field represents training dataset on which to train decision tree
      */
@@ -31,44 +30,26 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator 
      *
      * @param trainingData the training data on which to train the
      *                     decision tree
+     * @throws RuntimeException if trainingData is empty
      */
     public TreeGenerator(IAttributeDataset<T> trainingData) {
+        if (trainingData == null) {
+            throw new RuntimeException("Dataset is empty");
+        }
         this.trainingData = trainingData;
     }
 
     @Override
     public ITreeNode buildClassifier(String targetAttribute) {
-        if (!this.trainingData.getAttributes().contains(targetAttribute)) {
+        List<String> attributes = this.trainingData.getAttributes();
+        if (!attributes.contains(targetAttribute)) {
             throw new RuntimeException("targetAttribute not found");
         }
-        LinkedList<String> mutableAttributes = new LinkedList<String>(this.trainingData.getAttributes());
+        LinkedList<String> mutableAttributes =
+                new LinkedList<String>(attributes);
         mutableAttributes.remove(targetAttribute);
-        if (this.trainingData.allSameValue(targetAttribute)) {
-            return new Leaf(this.trainingData.getSharedValue(targetAttribute));
-        } else if (mutableAttributes.isEmpty()) {
-            return new Leaf(this.trainingData.mostCommonValue(targetAttribute));
-        } else {
-            Random random = new Random();
-            int upperBound = mutableAttributes.size();
-            int randomNum = random.nextInt(upperBound);
 
-            String newAttribute = mutableAttributes.get(randomNum);
-            mutableAttributes.remove(newAttribute);
-            Object mostCommonValue = this.trainingData.mostCommonValue(newAttribute);
-            Node nextNode = new Node(newAttribute, mostCommonValue);
-            //this.start = nextNode;
-            List<IAttributeDataset<T>> partitions = this.trainingData.partition(newAttribute);
-
-            //List<IAttributeDataset<T>> partitions = this.classifierHelper(mutableAttributes);
-
-            for (IAttributeDataset<T> partition : partitions) {
-                TreeGenerator newTree = new TreeGenerator(partition);
-                newTree.buildClassifier(targetAttribute);
-                Edge newEdge = new Edge(partition.getSharedValue(newAttribute),nextNode);
-            }
-            return nextNode; //?? or would we return start after setting equal to the tree we create?
-
-        }
+        return this.classifierHelper(targetAttribute, mutableAttributes);
     }
 
     /**
@@ -76,49 +57,61 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator 
      * @param mutableAttributes - shrinking list of attributes
      * @return A list of partitions
      */
-    public List<IAttributeDataset<T>> classifierHelper(LinkedList<String> mutableAttributes) {
-        return null;
+    //Handle if mutAtt size = 0!!
+    public ITreeNode classifierHelper(String targetAttribute,
+                                       LinkedList<String> mutableAttributes) {
+        Object mostCommonValue =
+                this.trainingData.mostCommonValue(targetAttribute);
+        if (this.trainingData.allSameValue(targetAttribute)) {
+            Object sharedValue =
+                    this.trainingData.getSharedValue(targetAttribute);
+            return new Leaf(sharedValue);
+        } else if (mutableAttributes.isEmpty()) {
+            return new Leaf(mostCommonValue);
+        } else {
+            int randomNum = this.getRandomNumber(mutableAttributes);
+            String newAttribute = mutableAttributes.get(randomNum);
+            mutableAttributes.remove(newAttribute);
+            Node newNode = new Node(newAttribute, mostCommonValue);
+            List<IAttributeDataset<T>> partitions =
+                    this.trainingData.partition(newAttribute);
+
+            for (IAttributeDataset<T> partition : partitions) {
+               mutableAttributes =
+                      new LinkedList<String>(partition.getAttributes());
+                TreeGenerator newTree = new TreeGenerator(partition);
+                ITreeNode tree =
+                        newTree.classifierHelper(targetAttribute,
+                                mutableAttributes);
+                Object sharedValue = partition.getSharedValue(newAttribute);
+                Edge edge = new Edge(sharedValue, tree);
+                newNode.edges.add(edge);
+            }
+            this.start = newNode;
+        }
+
+        return this.start;
     }
 
     /**
-     * for each new subset:
-     * recursively generate decision tree for subset
-     * create an edge from new node to recursive subtree,
-     * labeled by corresponding value of chosen attribute
+     *
+     * @param mutableAttributes
+     * @return
      */
-
+    public int getRandomNumber(LinkedList<String> mutableAttributes) {
+        Random random = new Random();
+        int upperBound = mutableAttributes.size();
+        int randomNum = random.nextInt(upperBound);
+        return randomNum;
+    }
 
     @Override
     public Object lookupRecommendation(IAttributeDatum datum) {
-        // TODO: implement
-        return null;
+        return this.start.lookupDecision(datum);
     }
 
     @Override
     public void printTree() {
-        // TODO: implement
+        this.start.printNode("");
     }
-
-/**
- *
- * if all rows in subset have same value for targetAttribute:
- *     return decision node (leaf) with common value
- * else if no more unused attributes:
- *     return decision node (leaf) with most common value of targetAttribute
- *         across current subset
- * else:
- *     choose a previously unused attribute
- *     create new node for chosen attribute
- *     store most common value of targetAttribute across current subset
- *     partition subset into new subsets for each value of chosen attribute
- *
- *     for each new subset:
- *         recursively generate decision tree for subset
- *         create an edge from new node to recursive subtree,
- *             labeled by corresponding value of chosen attribute
- *
- *     return new node
- */
-
-
 }

@@ -48,6 +48,7 @@ public class Vegetable implements IAttributeDatum {
         this.highFiber = highFiber;
         this.likeToEat = likeToEat;
     }
+
     @Override
     public Object getValueOf(String attributeName) {
         if (attributeName.equals("name")) {

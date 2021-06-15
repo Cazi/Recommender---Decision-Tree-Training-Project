@@ -24,9 +24,11 @@ public class Leaf implements ITreeNode {
 
     @Override
     public Object lookupDecision(IAttributeDatum datum) {
-        return null;
+        return this.decision;
     }
 
     @Override
-    public void printNode(String leadSpace){ }
+    public void printNode(String leadSpace){
+        System.out.println(leadSpace + "Decision: " + this.decision);
+    }
 }

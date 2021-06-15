@@ -2,15 +2,14 @@ package sol;
 
 import src.IAttributeDataset;
 import src.IAttributeDatum;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Class for a table (collection of rows) of data.
  * @param <T> the type of the data objects
  */
+
 public class DataTable<T extends IAttributeDatum> implements
         IAttributeDataset<T> {
     /**
@@ -50,9 +49,12 @@ public class DataTable<T extends IAttributeDatum> implements
 
     @Override
     public boolean allSameValue(String ofAttribute) {
-        Object value = this.rows.get(0).getValueOf(ofAttribute);
+        T firstRow = this.getDataObjects().get(0);
+        Object value = firstRow.getValueOf(ofAttribute);
         for (int i = 1; i < this.size(); i ++) {
-            if (!value.equals(this.rows.get(i).getValueOf(ofAttribute))) {
+            T currentRow = this.getDataObjects().get(i);
+            Object currentValue = currentRow.getValueOf(ofAttribute);
+            if (!value.equals(currentValue)) {
                 return false;
             }
         }
@@ -62,25 +64,30 @@ public class DataTable<T extends IAttributeDatum> implements
 
     @Override
     public Object getSharedValue(String ofAttribute) {
-        return this.rows.get(0).getValueOf(ofAttribute);
+        T firstRow = this.getDataObjects().get(0);
+        Object value = firstRow.getValueOf(ofAttribute);
+
+        return value;
     }
 
     @Override
     public Object mostCommonValue(String ofAttribute) {
         List<IAttributeDataset<T>> partitions = this.partition(ofAttribute);
-        IAttributeDataset<T> mostCommon = partitions.get(0);
-        int mostCommonSize = mostCommon.size();
-
+        IAttributeDataset<T> mostCommonDataset = partitions.get(0);
+        int mostCommonSize = mostCommonDataset.size();
         // is there a sort (descending order)  function to first sort then
         // just return the first thing in list aka better runtime????
         for (int i = 1; i < partitions.size(); i ++) {
-            if(mostCommonSize < partitions.get(i).size()) {
-                mostCommon = partitions.get(i);
-                mostCommonSize = mostCommon.size();
+            IAttributeDataset<T> currentDataset = partitions.get(i);
+            int currentSize = currentDataset.size();
+            if(mostCommonSize < currentSize) {
+                mostCommonDataset = currentDataset;
+                mostCommonSize = currentSize;
             }
         }
+        Object mostCommonValue = mostCommonDataset.getSharedValue(ofAttribute);
 
-        return mostCommon.getSharedValue(ofAttribute);
+        return mostCommonValue;
     }
 
     @Override
@@ -88,23 +95,10 @@ public class DataTable<T extends IAttributeDatum> implements
         List<IAttributeDataset<T>> partitions =
                 new ArrayList<IAttributeDataset<T>>();
         List<Object> uniqueValues = this.uniqueValues(onAttribute);
-        LinkedList<T> mutableRows = new LinkedList<>(rows);
 
         for (Object value : uniqueValues) {
-            List<T> currentData = new ArrayList<T>();
-            int i = 0;
-            while (mutableRows != null) {
-                T row = mutableRows.get(i);
-                Object currentValue = row.getValueOf(onAttribute);
-                if (value.equals(currentValue)) {
-                    currentData.add(row);
-                    mutableRows.remove(row);
-                } else {
-                    i++;
-                }
-            }
             IAttributeDataset<T> currentDataset =
-                    new DataTable<T>(this.getAttributes(),currentData);
+                    this.createSubset(onAttribute, value);
             partitions.add(currentDataset);
         }
 
@@ -112,19 +106,42 @@ public class DataTable<T extends IAttributeDatum> implements
     }
 
     /**
-     * Unique values for a given attribute
+     * Method to create a dataset/partition - helper for partition method
      *
      * @param onAttribute the given attribute
-     * @return a list of unique values
+     * @param value a unique value for the given attribute
+     * @return a dataset with given value
      */
-    private List<Object> uniqueValues(String onAttribute) {
+    public IAttributeDataset<T> createSubset(String onAttribute, Object value)
+    {
+        List<T> currentData = new ArrayList<T>();
+        for (T row: this.getDataObjects()) {
+            Object currentValue = row.getValueOf(onAttribute);
+            if (value.equals(currentValue)) {
+                currentData.add(row);
+            }
+        }
+        IAttributeDataset<T> currentDataset =
+                new DataTable<T>(this.getAttributes(),currentData);
+
+        return currentDataset;
+    }
+
+    /**
+     * Method to create a list of unique values for a given attribute
+     *
+     * @param onAttribute the given attribute
+     * @return a list of unique values for a given attribute
+     */
+    public List<Object> uniqueValues(String onAttribute) {
         List<Object> unique = new ArrayList<Object>();
-        for (T row : rows) {
+        for (T row : this.getDataObjects()) {
             Object currentValue = row.getValueOf(onAttribute);
             if(!unique.contains(currentValue)) {
                 unique.add(currentValue);
             }
         }
+
         return unique;
     }
 }

@@ -22,8 +22,22 @@ public class Edge {
      * @param value Object representing the value of edge
      * @param next ITreeNode representing the next ITreeNode
      */
-    public Edge(Object value, ITreeNode next){
+    public Edge(Object value,ITreeNode next){
         this.value = value;
         this.next = next;
     }
+
+    /**
+     * Method to get and return value of the edge
+     *
+     * @return value of the edge
+     */
+    public Object getValue() { return this.value; }
+
+    /**
+     * Method to get and return the next node of the edge
+     *
+     * @return the next node of the edge
+     */
+    public ITreeNode getNextNode() { return this.next; }
 }
