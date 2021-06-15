@@ -296,7 +296,9 @@ public class RecommenderTestSuite {
 //        t.checkExpect(unknownDecision.equals(true), true);
 
         Object pinkDecision = givenDecisionTree.lookupDecision(pinkSquash);
-        System.out.println(pinkDecision);
+        //System.out.println(pinkDecision);
+
+        givenDecisionTree.printNode("       ");
     }
 
     /*Testing Edge Methods */

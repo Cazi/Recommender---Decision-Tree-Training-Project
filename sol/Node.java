@@ -49,14 +49,13 @@ public class Node implements ITreeNode {
 
     @Override
     public void printNode(String leadSpace) {
-        System.out.println(this.attribute + "\n");
-
-        //System.out.println("-----------------");
+        System.out.println(leadSpace + "Node: " +this.attribute + "\n");
+        leadSpace += "      ";
         for (Edge edge : this.edges) {
-            System.out.println("        " + edge.getValue());
-            leadSpace += "      ";
+            System.out.println(leadSpace + "Edge: " +edge.getValue());
             edge.getNextNode().printNode(leadSpace);
+
         }
-        //edge.getNextNode().printNode(leadSpace);
+
     }
 }
