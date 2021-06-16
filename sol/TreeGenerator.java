@@ -89,6 +89,7 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
             }
             this.start = newNode;
         }
+
         return this.start;
     }
 
@@ -103,6 +104,7 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
         Random random = new Random();
         int upperBound = mutableAttributes.size();
         int randomNum = random.nextInt(upperBound);
+
         return randomNum;
     }
 

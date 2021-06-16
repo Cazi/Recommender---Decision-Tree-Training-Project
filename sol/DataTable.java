@@ -102,8 +102,8 @@ public class DataTable<T extends IAttributeDatum>
                     this.createSubset(onAttribute, value);
             partitions.add(currentDataset);
         }
-        return partitions;
 
+        return partitions;
     }
 
     /**
@@ -122,6 +122,7 @@ public class DataTable<T extends IAttributeDatum>
                 currentData.add(row);
             }
         }
+
         IAttributeDataset<T> currentDataset =
                 new DataTable<T>(this.getAttributes(), currentData);
 
@@ -143,7 +144,7 @@ public class DataTable<T extends IAttributeDatum>
                 unique.add(currentValue);
             }
         }
-        return unique;
 
+        return unique;
     }
 }
