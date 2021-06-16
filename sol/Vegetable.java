@@ -33,8 +33,8 @@ public class Vegetable implements IAttributeDatum {
      *
      * @param name - String representing the name of the vegetable
      * @param color - String representing the color of the vegetable
-     * @param lowCarb - Boolean representing whether the vegetable is high in
-     *        fiber
+     * @param lowCarb - Boolean representing whether the vegetable is low in
+     *        carbohydrates
      * @param highFiber - Boolean representing whether the vegetable is high in
      *        fiber
      * @param likeToEat - Boolean representing whether the vegetable is liked

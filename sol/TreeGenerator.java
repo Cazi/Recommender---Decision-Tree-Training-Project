@@ -33,7 +33,7 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
      * @throws RuntimeException if trainingData is empty
      */
     public TreeGenerator(IAttributeDataset<T> trainingData) {
-        if (trainingData == null) {
+        if (trainingData.size() == 0) {
             throw new RuntimeException("Dataset is empty");
         }
         this.trainingData = trainingData;
@@ -53,11 +53,11 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
     }
 
     /**
-     * classifierHelper for the buildClassifier method
+     * Method to help generate tree - helper method for buildClassifier method
+     *
      * @param mutableAttributes - shrinking list of attributes
      * @return A list of partitions
      */
-    //Handle if mutAtt size = 0!!
     public ITreeNode classifierHelper(String targetAttribute,
                                        LinkedList<String> mutableAttributes) {
         Object mostCommonValue =
@@ -94,9 +94,11 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
     }
 
     /**
+     * Method to generate and return a random number
      *
-     * @param mutableAttributes
-     * @return
+     * @param mutableAttributes shrinking list of attributes
+     * @return a integer within the range of 0 (inclusive) and mutableAttributes
+     *      size (exclusive)
      */
     public int getRandomNumber(LinkedList<String> mutableAttributes) {
         Random random = new Random();

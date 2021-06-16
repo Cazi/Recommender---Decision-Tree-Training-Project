@@ -49,11 +49,13 @@ public class DataTable<T extends IAttributeDatum> implements
 
     @Override
     public boolean allSameValue(String ofAttribute) {
-        List<T> tableRows = this.getDataObjects();
-        Object initialValue = tableRows.get(0).getValueOf(ofAttribute);
-        for (T row: this.getDataObjects()) {
-            Object currentValue = row.getValueOf(ofAttribute);
-            if (!currentValue.equals(initialValue)) {
+        T firstRow = this.getDataObjects().get(0);
+        Object value = firstRow.getValueOf(ofAttribute);
+
+        for (int i = 1; i < this.size(); i ++) {
+            T currentRow = this.getDataObjects().get(i);
+            Object currentValue = currentRow.getValueOf(ofAttribute);
+            if (!value.equals(currentValue)) {
                 return false;
             }
         }
@@ -74,22 +76,26 @@ public class DataTable<T extends IAttributeDatum> implements
         List<IAttributeDataset<T>> partitions = this.partition(ofAttribute);
         IAttributeDataset<T> mostCommonDataset = partitions.get(0);
         int mostCommonSize = mostCommonDataset.size();
+
         for (int i = 1; i < partitions.size(); i ++) {
             IAttributeDataset<T> currentDataset = partitions.get(i);
             int currentSize = currentDataset.size();
-            if(mostCommonSize < currentSize) {
+            if (mostCommonSize < currentSize) {
                 mostCommonDataset = currentDataset;
                 mostCommonSize = currentSize;
             }
         }
         Object mostCommonValue = mostCommonDataset.getSharedValue(ofAttribute);
+
         return mostCommonValue;
     }
 
     @Override
     public List<IAttributeDataset<T>> partition(String onAttribute) {
-        List<IAttributeDataset<T>> partitions = new ArrayList<IAttributeDataset<T>>();
+        List<IAttributeDataset<T>> partitions =
+                new ArrayList<IAttributeDataset<T>>();
         List<Object> uniqueValues = this.uniqueValues(onAttribute);
+
         for (Object value : uniqueValues) {
             IAttributeDataset<T> currentDataset =
                     this.createSubset(onAttribute, value);
@@ -106,16 +112,18 @@ public class DataTable<T extends IAttributeDatum> implements
      * @param value a unique value for the given attribute
      * @return a dataset with given value
      */
-    public IAttributeDataset<T> createSubset(String onAttribute, Object value) {
+    public IAttributeDataset<T> createSubset(String onAttribute, Object value)
+    {
         List<T> currentData = new ArrayList<T>();
-        for (T row: this.getDataObjects()) {
+
+        for (T row : this.getDataObjects()) {
             Object currentValue = row.getValueOf(onAttribute);
             if (value.equals(currentValue)) {
                 currentData.add(row);
             }
         }
         IAttributeDataset<T> currentDataset =
-                new DataTable<T>(this.getAttributes(),currentData);
+                new DataTable<T>(this.getAttributes(), currentData);
 
         return currentDataset;
     }
@@ -128,9 +136,10 @@ public class DataTable<T extends IAttributeDatum> implements
      */
     public List<Object> uniqueValues(String onAttribute) {
         List<Object> unique = new ArrayList<Object>();
+
         for (T row : this.getDataObjects()) {
             Object currentValue = row.getValueOf(onAttribute);
-            if(!unique.contains(currentValue)) {
+            if (!unique.contains(currentValue)) {
                 unique.add(currentValue);
             }
         }

@@ -1,6 +1,7 @@
 package sol;
 
 import src.IAttributeDataset;
+import src.IAttributeDatum;
 import src.ITreeNode;
 import tester.Tester;
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class RecommenderTestSuite {
      * Setup method implementing the handout's datatable
      */
     public void HandoutSetup () {
-        this.spinach = new Vegetable("Spinach", "green", true,
-                true, false);
+        this.spinach = new Vegetable("Spinach", "green",
+                true, true, false);
         this.kale = new Vegetable("Kale", "green", true,
                 true, true);
         this.peas = new Vegetable("Peas", "green", false,
@@ -56,6 +57,9 @@ public class RecommenderTestSuite {
         this.vegList.add(this.lettuce);
 
         this.givenTable = new DataTable(this.attributes, this.vegList);
+        this.treeGen = new TreeGenerator(this.givenTable);
+        this.givenDecisionTree =
+                treeGen.buildClassifier("likeToEat");
 
     }
 
@@ -63,8 +67,8 @@ public class RecommenderTestSuite {
      * Setup method implementing the GearUp's datatable
      */
     public void gearUpSetup () {
-        this.spinach = new Vegetable("Spinach", "green", true,
-                false, false);
+        this.spinach = new Vegetable("Spinach", "green",
+                true, false, false);
         this.kale = new Vegetable("Kale", "green", true,
                 true, true);
         this.peas = new Vegetable("Peas", "green", false,
@@ -73,13 +77,13 @@ public class RecommenderTestSuite {
                 true, true, true);
         this.carrot = new Vegetable("Carrot", "orange", true,
                 false, false);
-        this.eggplant = new Vegetable("Eggplant", "purple", true,
-                true,true);
+        this.eggplant = new Vegetable("Eggplant", "purple",
+                true, true,true);
 
-        this.squash = new Vegetable("Squash", "orange", false,
-                true, null);
-        this.pinkSquash = new Vegetable("Squash", "pink", false,
-                true, null);
+        this.squash = new Vegetable("Squash", "orange",
+                false, true, null);
+        this.pinkSquash = new Vegetable("Squash", "pink",
+                false, true, null);
 
         this.attributes =  new ArrayList<>();
         this.attributes.add("color");
@@ -96,8 +100,9 @@ public class RecommenderTestSuite {
         this.vegList.add(this.eggplant);
 
         this.givenTable = new DataTable(this.attributes, this.vegList);
-        treeGen = new TreeGenerator(this.givenTable);
-        this.givenDecisionTree = treeGen.buildClassifier("likeToEat");
+        this.treeGen = new TreeGenerator(this.givenTable);
+        this.givenDecisionTree =
+                treeGen.buildClassifier("likeToEat");
     }
 
     /*  Vegetable Tests */
@@ -292,35 +297,29 @@ public class RecommenderTestSuite {
         Object spinachDecision = givenDecisionTree.lookupDecision(spinach);
         t.checkExpect(spinachDecision.equals(false), true);
 
-//        Object unknownDecision = givenDecisionTree.lookupDecision(squash);
-//        t.checkExpect(unknownDecision.equals(true), true);
 
-        Object pinkDecision = givenDecisionTree.lookupDecision(pinkSquash);
-        //System.out.println(pinkDecision);
+        //Object unknownDecision = givenDecisionTree.lookupDecision(squash);
+        //t.checkExpect(unknownDecision.equals(true), true);
 
-        givenDecisionTree.printNode("       ");
+        //Object pinkDecision = givenDecisionTree.lookupDecision(pinkSquash);
     }
 
     /*Testing Edge Methods */
     public void testGetValue(Tester t) {
-
-    }
-
-    public void testGetNextNode(Tester t) {}
-
-    //test for Leaf and Node
-    public void testPrintNode(Tester t) {}
-
-    //public void testTreeGeneratorConstructor(Tester t) {}
-
-    public void testBuildClassifer(Tester t) {
         this.gearUpSetup();
-        //treeGen.buildClassifier("likeToEat");
-    }
+        List testRows = new ArrayList<Vegetable>();
+        testRows.add(spinach);
+        testRows.add(kale);
+        DataTable testTable = new DataTable(givenTable.attributes,testRows);
+        treeGen = new TreeGenerator(testTable);
+        givenDecisionTree = treeGen.buildClassifier("likeToEat");
+        Object sharedValue = testTable.getSharedValue("lowCarb");
+        Edge edge = new Edge(sharedValue, givenDecisionTree);
+        Object sharedValue1 = testTable.getSharedValue("color");
+        Edge edge1 = new Edge(sharedValue1, givenDecisionTree);
 
-    public void testLookupRecommendation(Tester t) {
-        this.gearUpSetup();
-        t.checkExpect(treeGen.lookupRecommendation(peas),false);
+        t.checkExpect(edge.getValue(), true);
+        t.checkExpect(edge1.getValue(), "green");
     }
 
     public static void main(String[] args) {
