@@ -289,6 +289,11 @@ public class RecommenderTestSuite {
     }
 
     /*Testing methods that implement ITreeNode*/
+
+    /**
+     * testing the lookupDecision methods in the Node and Leaf classes
+     * @param t - tester object
+     */
     public void testLookupDecisionITreeNode(Tester t) {
         this.gearUpSetup();
         Object spinachDecision = givenDecisionTree.lookupDecision(spinach);
