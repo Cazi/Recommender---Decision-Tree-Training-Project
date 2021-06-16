@@ -4,13 +4,11 @@ import src.IAttributeDataset;
 import src.IAttributeDatum;
 import src.ITreeNode;
 import tester.Tester;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class RecommenderTestSuite {
-
-    // TODO: write unit tests for your implementations of IAttributeDatum,
-    //  IAttributeDataset, and ITreeNode
-
     /**
      * Global variables for testing
      */
@@ -32,7 +30,7 @@ public class RecommenderTestSuite {
     /**
      * Setup method implementing the handout's datatable
      */
-    public void HandoutSetup () {
+    public void HandoutSetup() {
         this.spinach = new Vegetable("Spinach", "green",
                 true, true, false);
         this.kale = new Vegetable("Kale", "green", true,
@@ -43,7 +41,7 @@ public class RecommenderTestSuite {
                 false, false, false);
         this.lettuce = new Vegetable("Lettuce", "green",
                 true, false, true);
-        this.attributes =  new ArrayList<String>();
+        this.attributes = new ArrayList<String>();
         this.attributes.add("color");
         this.attributes.add("lowCarb");
         this.attributes.add("highFiber");
@@ -66,7 +64,7 @@ public class RecommenderTestSuite {
     /**
      * Setup method implementing the GearUp's datatable
      */
-    public void gearUpSetup () {
+    public void gearUpSetup() {
         this.spinach = new Vegetable("Spinach", "green",
                 true, false, false);
         this.kale = new Vegetable("Kale", "green", true,
@@ -75,17 +73,17 @@ public class RecommenderTestSuite {
                 true, false);
         this.sweatPotato = new Vegetable("Sweet Potato", "orange",
                 true, true, true);
-        this.carrot = new Vegetable("Carrot", "orange", true,
-                false, false);
+        this.carrot = new Vegetable("Carrot", "orange",
+                true,false, false);
         this.eggplant = new Vegetable("Eggplant", "purple",
-                true, true,true);
+                true, true, true);
 
         this.squash = new Vegetable("Squash", "orange",
                 false, true, null);
         this.pinkSquash = new Vegetable("Squash", "pink",
-                false, true, null);
+                true, true, null);
 
-        this.attributes =  new ArrayList<>();
+        this.attributes = new ArrayList<>();
         this.attributes.add("color");
         this.attributes.add("lowCarb");
         this.attributes.add("highFiber");
@@ -109,9 +107,10 @@ public class RecommenderTestSuite {
 
     /**
      * Testing getValueOf in Vegetable class
+     *
      * @param t - tester object
      */
-    public void testGetValOf (Tester t) {
+    public void testGetValOf(Tester t) {
         this.HandoutSetup();
         t.checkExpect(spinach.getValueOf("color").equals("green"),
                 true);
@@ -130,9 +129,10 @@ public class RecommenderTestSuite {
 
     /**
      * Testing getAttributes in the DataTable class
+     *
      * @param t - tester object
      */
-    public void testGetAttributes (Tester t) {
+    public void testGetAttributes(Tester t) {
         this.gearUpSetup();
         List<String> attributeTest = new ArrayList<>();
         attributeTest.add("color");
@@ -145,9 +145,10 @@ public class RecommenderTestSuite {
 
     /**
      * Testing getDataObjects in the DataTable class
+     *
      * @param t - tester object
      */
-    public <T> void testGetDataObjects (Tester t) {
+    public <T> void testGetDataObjects(Tester t) {
         this.gearUpSetup();
         List testRows = new ArrayList<Vegetable>();
         testRows.add(spinach);
@@ -162,9 +163,10 @@ public class RecommenderTestSuite {
 
     /**
      * Testing size in the DataTable class
+     *
      * @param t - tester object
      */
-    public void testSize (Tester t) {
+    public void testSize(Tester t) {
         this.gearUpSetup();
         List testRows = new ArrayList<Vegetable>();
         testRows.add(spinach);
@@ -173,44 +175,51 @@ public class RecommenderTestSuite {
         testRows.add(carrot);
         testRows.add(sweatPotato);
         testRows.add(eggplant);
-        DataTable testTable = new DataTable(givenTable.attributes,testRows);
-        t.checkExpect(givenTable.size() == testTable.size(),true);
+        DataTable testTable = new DataTable(givenTable.attributes, testRows);
+        t.checkExpect(givenTable.size() == testTable.size(),
+                true);
     }
+
     /**
      * Testing allSameValue in the DataTable class
+     *
      * @param t - tester object
      */
-    public void testAllSameValue (Tester t) {
+    public void testAllSameValue(Tester t) {
         this.gearUpSetup();
         List testRows = new ArrayList<Vegetable>();
         testRows.add(spinach);
         testRows.add(kale);
         testRows.add(peas);
-        DataTable testTable = new DataTable(givenTable.attributes,testRows);
+        DataTable testTable = new DataTable(givenTable.attributes, testRows);
         t.checkExpect(givenTable.allSameValue("color"),
                 false);
-        t.checkExpect(testTable.allSameValue("color"),true);
+        t.checkExpect(testTable.allSameValue("color"),
+                true);
     }
 
     /**
      * Testing getSharedValue in the DataTable class
+     *
      * @param t - tester object
      */
-    public void testGetSharedValue (Tester t){
+    public void testGetSharedValue(Tester t) {
         this.gearUpSetup();
         List testRows = new ArrayList<Vegetable>();
         testRows.add(spinach);
         testRows.add(kale);
-        DataTable testTable = new DataTable(givenTable.attributes,testRows);
+        DataTable testTable = new DataTable(givenTable.attributes, testRows);
         t.checkExpect(testTable.getSharedValue("lowCarb"),
                 true);
 
     }
+
     /**
      * Testing mostCommonValue in the DataTable class
+     *
      * @param t - tester object
      */
-    public void testMostCommonValue (Tester t) {
+    public void testMostCommonValue(Tester t) {
         this.gearUpSetup();
         List testPartition = new ArrayList<Vegetable>();
         testPartition.add(spinach);
@@ -225,9 +234,10 @@ public class RecommenderTestSuite {
 
     /**
      * Testing uniqueValue in the DataTable class
+     *
      * @param t - tester object
      */
-    public void testUniqueValues (Tester t) {
+    public void testUniqueValues(Tester t) {
         this.gearUpSetup();
         List testPartition = new ArrayList<Vegetable>();
         testPartition.add(spinach);
@@ -240,26 +250,16 @@ public class RecommenderTestSuite {
         uniqueValues.add("orange");
         uniqueValues.add("purple");
         t.checkExpect(testTable.uniqueValues(
-                "color").equals(uniqueValues),true);
+                "color").equals(uniqueValues), true);
     }
 
-
-    /**
-     * Testing createSubset in the DataTable class
-     * @param t - tester object
-     */
-    public void testCreateSubset (Tester t) {
-        this.gearUpSetup();
-        IAttributeDataset<Vegetable> newDS =
-                givenTable.createSubset("lowCarb", true);
-        t.checkExpect(newDS.getDataObjects().contains(peas),false);
-    }
 
     /**
      * Testing partition in the DataTable class
+     *
      * @param t - tester object
      */
-    public void testPartition (Tester t) {
+    public void testPartition(Tester t) {
         this.gearUpSetup();
         List<IAttributeDataset<Vegetable>> lowCarbPartition =
                 givenTable.partition("lowCarb");
@@ -289,38 +289,39 @@ public class RecommenderTestSuite {
     }
 
     /*Testing methods that implement ITreeNode*/
-
-    //test for Leaf and Node
-    public void testLookupDecisionNode (Tester t) {
+    public void testLookupDecisionITreeNode(Tester t) {
         this.gearUpSetup();
-
         Object spinachDecision = givenDecisionTree.lookupDecision(spinach);
         t.checkExpect(spinachDecision.equals(false), true);
 
+        Node lowCarbNode = new Node("lowCarb", false);
+        Node highFiberNode = new Node("highFiber",
+                true);
+        List<Edge> lowCarbEList = new ArrayList<>();
+        List<Edge> highFiberEList = new ArrayList<>();
 
-        //Object unknownDecision = givenDecisionTree.lookupDecision(squash);
-        //t.checkExpect(unknownDecision.equals(true), true);
+        lowCarbNode.edges = lowCarbEList;
+        highFiberNode.edges = highFiberEList;
+        Edge lCTrue = new Edge(true, highFiberNode);
+        Edge lCFalse = new Edge(false, new Leaf(false));
+        lowCarbEList.add(lCTrue);
+        lowCarbEList.add(lCFalse);
 
-        //Object pinkDecision = givenDecisionTree.lookupDecision(pinkSquash);
+        Edge hFTrue = new Edge(true, new Leaf(true));
+        Edge hFFalse = new Edge(false, new Leaf(false));
+        highFiberEList.add(hFTrue);
+        highFiberEList.add(hFFalse);
+
+        Leaf testLeaf = new Leaf(false);
+        t.checkExpect(lowCarbNode.lookupDecision(squash).equals(false),
+                true);
+        t.checkExpect(lowCarbNode.lookupDecision(pinkSquash).equals(true),
+                true);
+        t.checkExpect(testLeaf.lookupDecision(squash).equals(false),
+                true);
     }
 
-    /*Testing Edge Methods */
-    public void testGetValue(Tester t) {
-        this.gearUpSetup();
-        List testRows = new ArrayList<Vegetable>();
-        testRows.add(spinach);
-        testRows.add(kale);
-        DataTable testTable = new DataTable(givenTable.attributes,testRows);
-        treeGen = new TreeGenerator(testTable);
-        givenDecisionTree = treeGen.buildClassifier("likeToEat");
-        Object sharedValue = testTable.getSharedValue("lowCarb");
-        Edge edge = new Edge(sharedValue, givenDecisionTree);
-        Object sharedValue1 = testTable.getSharedValue("color");
-        Edge edge1 = new Edge(sharedValue1, givenDecisionTree);
 
-        t.checkExpect(edge.getValue(), true);
-        t.checkExpect(edge1.getValue(), "green");
-    }
 
     public static void main(String[] args) {
         Tester.run(new RecommenderTestSuite());

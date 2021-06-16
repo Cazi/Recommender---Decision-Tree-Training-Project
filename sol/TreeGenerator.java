@@ -89,7 +89,6 @@ public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
             }
             this.start = newNode;
         }
-
         return this.start;
     }
 

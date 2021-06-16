@@ -2,16 +2,18 @@ package sol;
 
 import src.IAttributeDataset;
 import src.IAttributeDatum;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class for a table (collection of rows) of data.
+ *
  * @param <T> the type of the data objects
  */
 
-public class DataTable<T extends IAttributeDatum> implements
-        IAttributeDataset<T> {
+public class DataTable<T extends IAttributeDatum>
+        implements IAttributeDataset<T> {
     /**
      * Field representing list of table attributes
      */
@@ -22,9 +24,9 @@ public class DataTable<T extends IAttributeDatum> implements
     List<T> rows;
 
     /**
-     *  A constructor for DataTable
+     * A constructor for DataTable
      *
-     * @param attributes list of strings representing table attributes
+     * @param attributes  list of strings representing table attributes
      * @param dataObjects list of data objects representing rows of table
      */
     public DataTable(List<String> attributes, List<T> dataObjects) {
@@ -52,7 +54,7 @@ public class DataTable<T extends IAttributeDatum> implements
         T firstRow = this.getDataObjects().get(0);
         Object value = firstRow.getValueOf(ofAttribute);
 
-        for (int i = 1; i < this.size(); i ++) {
+        for (int i = 1; i < this.size(); i++) {
             T currentRow = this.getDataObjects().get(i);
             Object currentValue = currentRow.getValueOf(ofAttribute);
             if (!value.equals(currentValue)) {
@@ -77,7 +79,7 @@ public class DataTable<T extends IAttributeDatum> implements
         IAttributeDataset<T> mostCommonDataset = partitions.get(0);
         int mostCommonSize = mostCommonDataset.size();
 
-        for (int i = 1; i < partitions.size(); i ++) {
+        for (int i = 1; i < partitions.size(); i++) {
             IAttributeDataset<T> currentDataset = partitions.get(i);
             int currentSize = currentDataset.size();
             if (mostCommonSize < currentSize) {
@@ -92,8 +94,7 @@ public class DataTable<T extends IAttributeDatum> implements
 
     @Override
     public List<IAttributeDataset<T>> partition(String onAttribute) {
-        List<IAttributeDataset<T>> partitions =
-                new ArrayList<IAttributeDataset<T>>();
+        List<IAttributeDataset<T>> partitions = new ArrayList<IAttributeDataset<T>>();
         List<Object> uniqueValues = this.uniqueValues(onAttribute);
 
         for (Object value : uniqueValues) {
@@ -101,8 +102,8 @@ public class DataTable<T extends IAttributeDatum> implements
                     this.createSubset(onAttribute, value);
             partitions.add(currentDataset);
         }
-
         return partitions;
+
     }
 
     /**
@@ -112,8 +113,7 @@ public class DataTable<T extends IAttributeDatum> implements
      * @param value a unique value for the given attribute
      * @return a dataset with given value
      */
-    public IAttributeDataset<T> createSubset(String onAttribute, Object value)
-    {
+    public IAttributeDataset<T> createSubset(String onAttribute, Object value) {
         List<T> currentData = new ArrayList<T>();
 
         for (T row : this.getDataObjects()) {
@@ -143,7 +143,7 @@ public class DataTable<T extends IAttributeDatum> implements
                 unique.add(currentValue);
             }
         }
-
         return unique;
+
     }
 }

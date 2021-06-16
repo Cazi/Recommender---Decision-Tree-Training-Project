@@ -2,6 +2,7 @@ package sol;
 
 import src.IAttributeDatum;
 import src.ITreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +27,9 @@ public class Node implements ITreeNode {
     /**
      * A constructor for Node
      *
-     * @param attribute - String representing Node attribute name
+     * @param attribute        - String representing Node attribute name
      * @param mostCommDecision - Object representing Node most common decision
-     *        of IAttributeDataset
+     *                         of IAttributeDataset
      */
     public Node(String attribute, Object mostCommDecision) {
         this.attribute = attribute;
@@ -46,7 +47,6 @@ public class Node implements ITreeNode {
                 return edgeNextNode.lookupDecision(datum);
             }
         }
-
         return this.mostCommonDecision;
     }
 

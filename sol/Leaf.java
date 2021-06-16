@@ -28,7 +28,7 @@ public class Leaf implements ITreeNode {
     }
 
     @Override
-    public void printNode(String leadSpace){
+    public void printNode(String leadSpace) {
         System.out.println("        " + leadSpace + "Decision: "
                 + this.decision);
     }
