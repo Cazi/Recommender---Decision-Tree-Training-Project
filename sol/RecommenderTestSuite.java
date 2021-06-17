@@ -58,7 +58,6 @@ public class RecommenderTestSuite {
         this.treeGen = new TreeGenerator(this.givenTable);
         this.givenDecisionTree =
                 treeGen.buildClassifier("likeToEat");
-
     }
 
     /**
@@ -211,7 +210,6 @@ public class RecommenderTestSuite {
         DataTable testTable = new DataTable(givenTable.attributes, testRows);
         t.checkExpect(testTable.getSharedValue("lowCarb"),
                 true);
-
     }
 
     /**
@@ -285,7 +283,6 @@ public class RecommenderTestSuite {
         t.checkExpect(
                 lowCarbPartition.get(1).getDataObjects().contains(peas),
                 true);
-
     }
 
     /*Testing methods that implement ITreeNode*/

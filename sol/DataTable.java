@@ -12,8 +12,7 @@ import java.util.List;
  * @param <T> the type of the data objects
  */
 
-public class DataTable<T extends IAttributeDatum>
-        implements IAttributeDataset<T> {
+public class DataTable<T extends IAttributeDatum> implements IAttributeDataset<T> {
     /**
      * Field representing list of table attributes
      */
