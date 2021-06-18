@@ -323,8 +323,6 @@ public class RecommenderTestSuite {
                 true);
     }
 
-
-
     public static void main(String[] args) {
         Tester.run(new RecommenderTestSuite());
     }

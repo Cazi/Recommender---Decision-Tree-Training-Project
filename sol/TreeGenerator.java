@@ -14,8 +14,7 @@ import java.util.LinkedList;
  * @param <T> the type of the data objects
  */
 
-public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator
-{
+public class TreeGenerator<T extends IAttributeDatum> implements ITreeGenerator {
     /**
      * Field represents training dataset on which to train decision tree
      */
