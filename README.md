@@ -38,10 +38,17 @@ Here is our dataset:
     likeToEat - false
     
 If we randomly select lowCarb as the attributed to partition our dataset on, then we get the following tree.
-                      lowcarb
-                      --------
-        true                      false
-        ----[celery, carrot]      -------[apple]
+
+
+
+                                     lowcarb
+                                     --------
+        true                                              false
+        ----[celery, carrot]                             -------[apple]
+        
+        
+        
+        
         
 lowCarb is then removed from the list of attributes, and the tree continues by choosing color as the next attribute.
 
