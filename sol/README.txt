@@ -1,7 +1,7 @@
 Overview:
 The Reccomender project focuses on Building decision trees recursively. The project's goals are to create data objects (e.g. Vegetables)
-with various attributes and dataset objects (e.g a list of vegetables) which the tree generator class employs the generate a decision tree.
-Here, based on the desired value (e.g The boolean likeToEat being true), the tree will determine which attributes lead to the desired value.
+with various attributes and dataset objects (e.g a list of vegetables) which the tree generator class employs to generate a decision tree.
+Here, based on the desired value (e.g The boolean likeToEat being true), the tree will determine which vegetable attributes lead to the desired value.
 The tree can then recieve a new piece of data that wasn't included in the training dataset, and accurately determine whether or not it satisfies the desired value. 
 
 How it works:
@@ -57,7 +57,7 @@ lowCarb is then removed from the list of attributes, and the tree continues by c
     true                                               true
     
                                        
-Since the shared attribute value for all the data in the false edge of the lowCarb tree is false, the final decision of the right subtree is false. This is because when we split the tree on an attribute, we check if all the data in the subset have the same value for the target attribute. Since apple has the same value for the target attribute as itself, we can safely return false as the decisioin for this subtree. 
+Since the shared attribute value for all the data in the false edge of the lowCarb tree is false, the final decision of the right subtree is false. This is because when we split the tree on an attribute, we check if all the data in the subset have the same value for the target attribute. Since apple has the same value for the target attribute as itself, we can safely return false as the decision for this subtree. 
 
 On the true edge of the lowCarb node, the tree splits on color leading to the green edge and the orange edge. Finally, for the same reason explained previously the green edge creates a leaf object with the decision true, and the orange edge creates a leaf object with the decision true.
 
